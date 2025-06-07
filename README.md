@@ -14,11 +14,22 @@ A RESTful Blog API built with **Node.js**, **Express**, and **MongoDB**. Include
 - Error handling and validation
 - WebSocket support (Socket.io)
 
----
 
 ## 📁 Folder Structure
 
----
+project/
+├── controllers/
+├── models/
+├── routes/
+├── middleware/
+├── utils/
+├── .env
+├── .gitignore
+├── db.js
+├── server.js
+├── index.js
+└── package.json
+
 
 ## 🔐 API Routes
 

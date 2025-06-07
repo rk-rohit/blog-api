@@ -17,8 +17,6 @@ A RESTful Blog API built with **Node.js**, **Express**, and **MongoDB**. Include
 
 ## 📁 Folder Structure
 
-Here’s the project structure formatted clearly for README — copy-paste this as-is:
-
 ```
 project/
 ├── controllers/

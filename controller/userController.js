@@ -1,8 +1,7 @@
 const UserModel = require("../model/UserModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
-const blacklistedTokens = new Set();
+const { blacklistToken } = require("../blacklist");
 
 const registerUser = async (req, res) => {
   try {
@@ -90,35 +89,12 @@ const loginUser = async (req, res) => {
   }
 };
 
-const authMiddleware = async (req, res, next) => {
-  const authHeader = req?.headers?.authorization;
-  const token = authHeader?.split(" ")[1];
-
-  if (!token) {
-    res.status(400).json({
-      message: "Invalid token!",
-    });
-  }
-
-  if (blacklistedTokens.has(token))
-    return res
-      .status(403)
-      .json({ status: "failed", message: "Token blacklisted" });
-
-  jwt.verify(token, process.env.JSON_WEB_TOKEN, (err, user) => {
-    if (err) return res.status(403).json({ message: "Invalid token" });
-    req.user = user;
-    req.token = token;
-    next();
-  });
-};
-
 const logoutUser = async (req, res) => {
   try {
     const authHeader = req?.headers?.authorization;
     const token = authHeader?.split(" ")[1];
 
-    blacklistedTokens.add(token);
+    blacklistToken(token);
     res.status(200).json({
       message: "Logout successfully!",
     });
@@ -133,6 +109,5 @@ const logoutUser = async (req, res) => {
 module.exports = {
   registerUser,
   loginUser,
-  logoutUser,
-  authMiddleware,
+  logoutUser
 };
